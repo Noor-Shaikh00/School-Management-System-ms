@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Management System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #1a1a2e;
+      color: #ececec;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    header {
+      width: 100%;
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 1000;
+      animation: slideInFromLeft 1s ease-out;
+    }
+
+    @keyframes slideInFromLeft {
+      from { transform: translateX(-100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    header img {
+      width: 120px;
+    }
+
+    nav a {
+      color: #ececec;
+      margin: 0 20px;
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ff6f61;
+    }
+
+    .container {
+      padding: 150px 20px 20px;
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    .title {
+      font-family: 'Roboto', sans-serif;
+      font-size: 3.5em;
+      margin-bottom: 30px;
+      color: #6e8efb;
+      animation: bounceIn 1s ease-out;
+    }
+
+    @keyframes bounceIn {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .form-container, .student-list {
+      background: #2c2c54;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      animation: fadeInUp 1s ease-out;
+      margin-top: 20px;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #ececec;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 1em;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ececec;
+    }
+
+    .form-group input:focus {
+      border-color: #6e8efb;
+      box-shadow: 0 0 5px rgba(110, 142, 251, 0.5);
+      outline: none;
+    }
+
+    .btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #824ebe, #4755d6);
+      color: #fff;
+      font-size: 1.2em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+      animation: pulse 1.5s infinite;
+      display: block;
+      width: 50%;
+      text-align: center;
+      margin-left: 25%;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #9ac44d, #490a04);
+    }
+
+    .student-list {
+      margin-top: 30px;
+      text-align: left;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .student-item {
+      padding: 15px;
+      border-bottom: 1px solid #444;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+
+    .student-item:last-child {
+      border-bottom: none;
+    }
+
+    .student-item:hover {
+      background: #3b3b98;
+    }
+
+    .student-details {
+      flex-grow: 1;
+    }
+
+    .student-name {
+      font-weight: 700;
+      font-size: 1.2em;
+      margin-bottom: 5px;
+    }
+
+    .student-age, .student-email {
+      font-size: 0.9em;
+      color: #ccc;
+    }
+
+    .student-remove {
+      background: #ff4b5c;
+      border: none;
+      padding: 8px 12px;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .student-remove:hover {
+      background: #ff1c3c;
+    }
+
+    footer {
+      background: #2c2c54;
+      color: #ececec;
+      padding: 20px;
+      text-align: center;
+      width: 100%;
+      box-shadow: 0 -4px 8px rgba(0,0,0,0.2);
+      margin-top: auto;
+    }
+
+    /* Responsive Media Queries */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: center;
+      }
+      header img {
+        width: 100px;
+      }
+      nav a {
+        margin: 10px;
+      }
+      .container {
+        padding: 80px 10px 10px;
+      }
+      .title {
+        font-size: 2.5em;
+      }
+      .btn {
+        width: 90%;
+        margin-left: 5%;
+      }
+      .student-list {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.webp" alt="Logo">
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#add-student">Add Student</a>
+      <a href="#student-list">Student List</a>
+    </nav>
+  </header>
+
+  <div id="home" class="container">
+    <h1 class="title">Student Management System</h1>
+    <p>Welcome to a modern and stylish student management system.</p>
+  </div>
+
+  <div id="add-student" class="container">
+    <div class="form-container">
+      <h2>Add Student</h2>
+      <form id="student-form">
+        <div class="form-group">
+          <label for="student-name">Name</label>
+          <input type="text" id="student-name" placeholder="Enter student name" required>
+        </div>
+        <div class="form-group">
+          <label for="student-age">Age</label>
+          <input type="number" id="student-age" placeholder="Enter student age" required>
+        </div>
+        <div class="form-group">
+          <label for="student-email">Email</label>
+          <input type="email" id="student-email" placeholder="Enter student email" required>
+        </div>
+        <button type="submit" class="btn">Add Student</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="student-list" class="container">
+    <h2>Student List</h2>
+    <div class="student-list" id="list-container">
+      <!-- Student items will be appended here -->
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Student Management System. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('student-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('student-name').value;
+      const age = document.getElementById('student-age').value;
+      const email = document.getElementById('student-email').value;
+
+      if (name && age && email) {
+        const studentItem = document.createElement('div');
+        studentItem.className = 'student-item';
+
+        const studentDetails = document.createElement('div');
+        studentDetails.className = 'student-details';
+        studentDetails.innerHTML = `<span class="student-name">${name}</span><br><span class="student-age">Age: ${age}</span><br><span class="student-email">Email: ${email}</span>`;
+
+        const removeButton = document.createElement('button');
+        removeButton.className = 'student-remove';
+        removeButton.textContent = 'Remove';
+        removeButton.addEventListener('click', function() {
+          studentItem.remove();
+        });
+
+        studentItem.appendChild(studentDetails);
+        studentItem.appendChild(removeButton);
+
+        document.getElementById('list-container').appendChild(studentItem);
+
+        document.getElementById('student-form').reset();
+      }
+    });
+  </script>
+</body>
+</html>
